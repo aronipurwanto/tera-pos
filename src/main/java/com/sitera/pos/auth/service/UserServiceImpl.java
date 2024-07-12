@@ -5,6 +5,8 @@ import com.sitera.pos.auth.model.request.ChangePasswordReq;
 import com.sitera.pos.auth.repository.UserRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +14,9 @@ import java.security.Principal;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl  implements UserService {
     private final PasswordEncoder passwordEncoder;
-    private final UserRepo repository;
+    private final UserRepo userRepo;
     @Override
     public void changePassword(ChangePasswordReq request, Principal connectedUser) {
         var user = (UserEntity) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
@@ -32,6 +34,11 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
 
         // save the new password
-        repository.saveAndFlush(user);
+        userRepo.saveAndFlush(user);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepo.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException(username));
     }
 }

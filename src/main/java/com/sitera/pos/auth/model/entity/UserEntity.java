@@ -50,6 +50,14 @@ public class UserEntity implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<TokenEntity> tokens;
 
+    public UserEntity(String firstname, String lastname, String email, String password, List<RoleEntity> roles) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> authorities = this.getRoles().stream()
