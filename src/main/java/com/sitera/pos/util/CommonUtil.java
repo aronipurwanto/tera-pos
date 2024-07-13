@@ -16,13 +16,9 @@ import java.nio.charset.Charset;
 import java.util.*;
 
 @Slf4j
-@Component
 public class CommonUtil {
 
-    public CommonUtil() {
-    }
-
-    public String getUUID(){
+    public static String getUUID(){
         return UUID.randomUUID().toString();
     }
 
@@ -47,7 +43,7 @@ public class CommonUtil {
         }
     }
 
-    public String getAlphaNumericString(int n) {
+    public static String getAlphaNumericString(int n) {
 
         // length is bounded by 256 Character
         byte[] array = new byte[256];
@@ -82,7 +78,7 @@ public class CommonUtil {
         return r.toString();
     }
 
-    public String getTransactionId() {
+    public static String getTransactionId() {
         return (String) Objects.requireNonNull(RequestContextHolder.getRequestAttributes()).getAttribute(ConstantApp.TRANSACTION_ID, RequestAttributes.SCOPE_REQUEST);
     }
 

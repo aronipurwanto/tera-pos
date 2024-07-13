@@ -1,7 +1,7 @@
 package com.sitera.pos.auth.controller;
 
 import com.sitera.pos.auth.model.request.ChangePasswordReq;
-import com.sitera.pos.auth.service.UserService;
+import com.sitera.pos.auth.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -15,7 +15,7 @@ import java.security.Principal;
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
 public class UserController {
-    private final UserService service;
+    private final AuthService service;
     @PatchMapping
     public ResponseEntity<?> changePassword(@RequestBody ChangePasswordReq request, Principal connectedUser) {
         service.changePassword(request, connectedUser);

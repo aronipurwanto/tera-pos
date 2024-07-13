@@ -1,5 +1,6 @@
 package com.sitera.pos.auth.model.entity;
 
+import com.sitera.pos.util.CommonUtil;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -51,6 +52,7 @@ public class UserEntity implements UserDetails {
     private List<TokenEntity> tokens;
 
     public UserEntity(String firstname, String lastname, String email, String password, List<RoleEntity> roles) {
+        this.id = CommonUtil.getUUID();
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;

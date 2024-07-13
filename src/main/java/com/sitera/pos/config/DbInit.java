@@ -24,11 +24,12 @@ public class DbInit implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         initRole();
-        initRole();
+        initUser();
     }
 
     public void initRole(){
         if(roleRepo.count() > 0) {
+            log.info("Role has been initialized");
             return;
         }
 
@@ -39,6 +40,7 @@ public class DbInit implements CommandLineRunner {
                     new RoleEntity("ROLE_SUPER_USER")
             );
             roleRepo.saveAllAndFlush(roleList);
+            log.info("Role has been initialized");
         }catch(Exception e){
             log.error("Save role error: {}", e.getMessage());
         }
@@ -46,6 +48,7 @@ public class DbInit implements CommandLineRunner {
 
     public void initUser(){
         if(userRepo.count() > 0) {
+            log.info("User has been initialized");
             return;
         }
         List<UserEntity> userList = new ArrayList<>();
@@ -70,6 +73,7 @@ public class DbInit implements CommandLineRunner {
 
         try {
             userRepo.saveAllAndFlush(userList);
+            log.info("User has been initialized");
         }catch (Exception e){
             log.error("Save user error: {}", e.getMessage());
         }

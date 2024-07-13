@@ -1,5 +1,6 @@
 package com.sitera.pos.auth.model.entity;
 
+import com.sitera.pos.util.CommonUtil;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -24,6 +25,7 @@ public class RoleEntity {
     private String name;
 
     public RoleEntity(String name) {
+        this.id = CommonUtil.getUUID();
         this.name = name;
     }
 }
