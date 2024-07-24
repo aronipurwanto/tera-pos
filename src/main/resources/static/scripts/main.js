@@ -95,3 +95,28 @@ function getClassroomMenu(){
         }
     });
 }
+
+function postLink(url) {
+    const csrfToken = $('meta[name="_csrf"]').attr('content');
+    const csrfHeader = $('meta[name="_csrf_header"]').attr('content');
+
+    $.ajax({
+        url: url,
+        type: 'POST',
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader(csrfHeader, csrfToken);
+        },
+        success: function(response) {
+            window.location.href = "/login?logout=true";
+        },
+        error: function(xhr, status, error) {
+            console.error('Logout failed:', error);
+        }
+    });
+}
+
+// Attach the postLink function to the logout link
+$('#logout-link').click(function(event) {
+    event.preventDefault();
+    postLink('/logout');
+});

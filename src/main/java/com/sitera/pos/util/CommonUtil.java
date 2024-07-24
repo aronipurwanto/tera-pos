@@ -6,17 +6,28 @@ import com.fasterxml.jackson.databind.type.CollectionType;
 import com.sitera.pos.exception.ExceptionApp;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
+import java.security.SecureRandom;
+import java.text.Normalizer;
 import java.util.*;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class CommonUtil {
+    private static final Pattern NON_LATIN = Pattern.compile("[^\\w-]");
+    private static final Pattern WHITE_SPACE = Pattern.compile("\\s");
+
+    public static String toSlug(String input) {
+        String whitespace = WHITE_SPACE.matcher(input).replaceAll("-");
+        String normalized = Normalizer.normalize(whitespace, Normalizer.Form.NFD);
+        String slug = NON_LATIN.matcher(normalized).replaceAll("");
+        return slug.toLowerCase(Locale.ENGLISH);
+    }
 
     public static String getUUID(){
         return UUID.randomUUID().toString();
@@ -43,39 +54,15 @@ public class CommonUtil {
         }
     }
 
+
     public static String getAlphaNumericString(int n) {
+        String alphaNumericChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        SecureRandom random = new SecureRandom();
 
-        // length is bounded by 256 Character
-        byte[] array = new byte[256];
-        new Random().nextBytes(array);
-
-        String randomString
-                = new String(array, Charset.forName("UTF-8"));
-
-        // Create a StringBuffer to store the result
-        StringBuffer r = new StringBuffer();
-
-        // remove all spacial char
-        String AlphaNumericString
-                = randomString
-                .replaceAll("[^A-Za-z0-9]", "");
-
-        // Append first 20 alphanumeric characters
-        // from the generated random String into the result
-        for (int k = 0; k < AlphaNumericString.length(); k++) {
-
-            if (Character.isLetter(AlphaNumericString.charAt(k))
-                    && (n > 0)
-                    || Character.isDigit(AlphaNumericString.charAt(k))
-                    && (n > 0)) {
-
-                r.append(AlphaNumericString.charAt(k));
-                n--;
-            }
-        }
-
-        // return the resultant string
-        return r.toString();
+        return random.ints(n, 0, alphaNumericChars.length())
+                .mapToObj(alphaNumericChars::charAt)
+                .map(Object::toString)
+                .collect(Collectors.joining());
     }
 
     public static String getTransactionId() {

@@ -54,6 +54,7 @@ public class DbInit implements CommandLineRunner {
         List<UserEntity> userList = new ArrayList<>();
         RoleEntity roleUser = roleRepo.findByName("ROLE_USER").orElse(null);
         if(roleUser != null) {
+            userList.add(new UserEntity("user", "nol", "user@gmail.com", encoder.encode("P@ssW0rd32!"), Arrays.asList(roleUser)));
             userList.add(new UserEntity("user", "satu", "user01@gmail.com", encoder.encode("P@ssW0rd32!"), Arrays.asList(roleUser)));
             userList.add(new UserEntity("user", "dua", "user02@gmail.com", encoder.encode("P@ssW0rd32!"), Arrays.asList(roleUser)));
             userList.add(new UserEntity("user", "tiga", "user03@gmail.com", encoder.encode("P@ssW0rd32!"), Arrays.asList(roleUser)));
@@ -61,6 +62,7 @@ public class DbInit implements CommandLineRunner {
 
         RoleEntity roleAdmin = roleRepo.findByName("ROLE_ADMIN").orElse(null);
         if(roleAdmin != null) {
+            userList.add(new UserEntity("admin", "nol", "admin@gmail.com", encoder.encode("P@ssW0rd32!"), Arrays.asList(roleAdmin)));
             userList.add(new UserEntity("admin", "satu", "admin01@gmail.com", encoder.encode("P@ssW0rd32!"), Arrays.asList(roleAdmin)));
             userList.add(new UserEntity("admin", "dua", "admin02@gmail.com", encoder.encode("P@ssW0rd32!"), Arrays.asList(roleAdmin)));
             userList.add(new UserEntity("admin", "tiga", "admin03@gmail.com", encoder.encode("P@ssW0rd32!"), Arrays.asList(roleAdmin)));
