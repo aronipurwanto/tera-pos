@@ -35,7 +35,7 @@ public class CategoryController {
         return "create-category";
     }
 
-    @PostMapping
+    @PostMapping("/save")
     public String createCategory(
             @ModelAttribute CategoryReq categoryReq,
             @RequestParam("image") MultipartFile image,

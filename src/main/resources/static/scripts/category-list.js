@@ -252,10 +252,11 @@ $(function () {
 
 //For form validation
 (function () {
-  const eCommerceCategoryListForm = document.getElementById('eCommerceCategoryListForm');
+  //const categoryForm = document.getElementById('category-form');
+  var $categoryForm = $('#category-form');
 
   //Add New customer Form Validation
-  const fv = FormValidation.formValidation(eCommerceCategoryListForm, {
+  const fv = FormValidation.formValidation($categoryForm, {
     fields: {
       categoryTitle: {
         validators: {
@@ -288,4 +289,30 @@ $(function () {
       autoFocus: new FormValidation.plugins.AutoFocus()
     }
   });
+
+  // Tangani submit form
+  $categoryForm.on('submit', function(e) {
+    alert('Test masuk masss');
+    e.preventDefault(); // hindari pengiriman form secara default
+
+    fv.validate().then(function(status) {
+      if (status === 'Valid') {
+        // jika validasi sukses, kirim data ke backend
+        $.ajax({
+          url: categoryForm.attr('action'),
+          type: 'POST',
+          data: categoryForm.serialize(), // kirim data form sebagai serialized data
+          success: function(response) {
+            // tanggapan dari server
+            console.log(response);
+            // tambahkan logika lain sesuai kebutuhan
+          },
+          error: function(jqXHR, textStatus, errorThrown) {
+            console.error('Error:', textStatus, errorThrown);
+          }
+        });
+      }
+    });
+  });
+
 })();

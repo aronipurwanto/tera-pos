@@ -48,7 +48,7 @@
         </div>
         <!-- Offcanvas Body -->
         <div class="offcanvas-body border-top">
-            <form class="pt-0" id="eCommerceCategoryListForm" onsubmit="return true">
+            <form class="pt-0" id="category-form" th:action="@{~/category/save}" method="post" enctype="multipart/form-data">
                 <!-- Title -->
                 <div class="mb-3">
                     <label class="form-label" for="ecommerce-category-title">Title</label>
